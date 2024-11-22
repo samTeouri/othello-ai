@@ -58,7 +58,14 @@ def is_legal_move(position):
     return False
 
 def flip_captured_pieces(position):
-    """Function to filp the captured pieces after a move"""
+    """Function to flip the captured pieces after a move"""
     for e in get_captured_pieces(position):
         GAMEBOARD[e] = PLAYER_TO_MOVE
+    return None
 
+def move(position):
+    """Function to make a move"""
+    if is_legal_move(position):
+        GAMEBOARD[position] = PLAYER_TO_MOVE
+        flip_captured_pieces(position)
+    return None
