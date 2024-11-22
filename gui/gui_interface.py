@@ -1,5 +1,5 @@
 import tkinter as tk
-from logic.game_logic import GAMEBOARD, is_legal_move, move, PLAYER_TO_MOVE, COLUMNS
+from logic.game_logic import GAMEBOARD, get_opponent, is_legal_move, move, PLAYER_TO_MOVE, COLUMNS
 
 CELL_SIZE = 60 # Size of each cell in pixels
 

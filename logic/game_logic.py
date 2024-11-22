@@ -32,7 +32,7 @@ def get_captured_pieces(position):
                 path.append((x, y))  # Add captured pieces to path
             elif GAMEBOARD[(x, y)] == PLAYER_TO_MOVE:
                 if path:
-                    captured_pieces.append(path)
+                    captured_pieces.extend(path)
                 break
             else:
                 break
