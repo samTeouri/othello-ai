@@ -99,9 +99,10 @@ def count_whites():
     """Function to count white pieces on the gameboard"""
     return len(list(filter(is_white, GAMEBOARD)))
 
-def score():
+def winner():
+    """Function to get the winner of the game"""
     if count_blacks() > count_whites():
-        return count_blacks()
+        return "black"
     elif count_whites() > count_blacks():
-        return count_whites()
-    return 0
+        return "white"
+    return "draw"
