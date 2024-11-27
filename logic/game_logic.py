@@ -90,3 +90,11 @@ def is_black(position):
 def count_blacks():
     """Function to count black pieces on the gameboard"""
     return len(list(filter(is_black, GAMEBOARD)))
+
+def is_white(position):
+    """Function to check if gameboard position is owned by white piece"""
+    return GAMEBOARD[position] == 'white'
+
+def count_whites():
+    """Function to count white pieces on the gameboard"""
+    return len(list(filter(is_white, GAMEBOARD)))
