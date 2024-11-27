@@ -11,13 +11,13 @@ DIRECTIONS = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 
 
 PLAYER_TO_MOVE = 'black'
 
-def get_opponent():
+def get_opponent(player):
     """Function to get the current opponent"""
-    return 'white' if PLAYER_TO_MOVE == 'black' else 'black'
+    return 'white' if player == 'black' else 'black'
 
 def get_captured_pieces(position):
     """Function to get all the captured pieces by a move"""
-    opponent = get_opponent()
+    opponent = get_opponent(PLAYER_TO_MOVE)
     captured_pieces = []
     for dx, dy in DIRECTIONS:
         path = []
@@ -43,29 +43,43 @@ def find_legal_moves():
     legal_moves = []
 
     # Iterate through all positions on the game board
-    for n, l in GAMEBOARD:
+    for position, state in GAMEBOARD.items():
         # Check only empty cells for potential moves
-        if GAMEBOARD[(n, l)] == 'empty':
-            if get_captured_pieces((n,l)):
-                legal_moves.append((n, l))
+        if state == 'empty' and get_captured_pieces(position):
+            legal_moves.append(position)
     return legal_moves
 
 def is_legal_move(position):
     """Function to find if a move is legal"""
-    legal_moves = find_legal_moves()
-    if position in legal_moves:
-        return True
-    return False
+    return position in find_legal_moves()
 
 def flip_captured_pieces(position):
     """Function to flip the captured pieces after a move"""
-    for e in get_captured_pieces(position):
-        GAMEBOARD[e] = PLAYER_TO_MOVE
+    for piece in get_captured_pieces(position):
+        GAMEBOARD[piece] = PLAYER_TO_MOVE
     return None
 
 def move(position):
     """Function to make a move"""
+    global PLAYER_TO_MOVE
     if is_legal_move(position):
         GAMEBOARD[position] = PLAYER_TO_MOVE
         flip_captured_pieces(position)
+        PLAYER_TO_MOVE = get_opponent(PLAYER_TO_MOVE)  # Switch to the opponent
+        print(PLAYER_TO_MOVE)
+    return None
+
+def computer_move():
+    """Function for the computer to decide and play its move."""
+    global PLAYER_TO_MOVE
+
+    # Find all legal moves
+    legal_moves = find_legal_moves()
+
+    if legal_moves:
+        # Choose the move that captures the most pieces
+        best_move = max(legal_moves, key=lambda pos: len(get_captured_pieces(pos)))
+        move(best_move)  # Make the move
+    
+    
     return None
