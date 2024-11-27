@@ -66,4 +66,20 @@ def move(position):
         GAMEBOARD[position] = PLAYER_TO_MOVE
         flip_captured_pieces(position)
         PLAYER_TO_MOVE = get_opponent(PLAYER_TO_MOVE)  # Switch to the opponent
+        print(PLAYER_TO_MOVE)
+    return None
+
+def computer_move():
+    """Function for the computer to decide and play its move."""
+    global PLAYER_TO_MOVE
+
+    # Find all legal moves
+    legal_moves = find_legal_moves()
+
+    if legal_moves:
+        # Choose the move that captures the most pieces
+        best_move = max(legal_moves, key=lambda pos: len(get_captured_pieces(pos)))
+        move(best_move)  # Make the move
+    
+    
     return None

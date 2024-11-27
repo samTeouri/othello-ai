@@ -1,5 +1,5 @@
 import tkinter as tk
-from logic.game_logic import GAMEBOARD, get_opponent, is_legal_move, move, PLAYER_TO_MOVE, COLUMNS
+from logic.game_logic import GAMEBOARD, computer_move, get_opponent, is_legal_move, move, PLAYER_TO_MOVE, COLUMNS
 
 CELL_SIZE = 60 # Size of each cell in pixels
 
@@ -73,3 +73,11 @@ class OthelloGUI:
             # Switch to the next player
             PLAYER_TO_MOVE = get_opponent(PLAYER_TO_MOVE)
             self.update_turn_display()  # Update the turn label
+
+            # Let the computer play its turn if it's white's turn
+            self.root.after(1000, self.computer_turn)  # Add a delay for better user experience
+
+    def computer_turn(self):
+        """Function to handle the computer's move."""
+        computer_move()  # Let the computer play
+        self.update_board()  # Update the GUI
