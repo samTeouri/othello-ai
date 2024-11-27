@@ -98,3 +98,10 @@ def is_white(position):
 def count_whites():
     """Function to count white pieces on the gameboard"""
     return len(list(filter(is_white, GAMEBOARD)))
+
+def score():
+    if count_blacks() > count_whites():
+        return count_blacks()
+    elif count_whites() > count_blacks():
+        return count_whites()
+    return 0
