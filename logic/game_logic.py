@@ -80,6 +80,13 @@ def computer_move():
         # Choose the move that captures the most pieces
         best_move = max(legal_moves, key=lambda pos: len(get_captured_pieces(pos)))
         move(best_move)  # Make the move
-    
-    
+
     return None
+
+def is_black(position):
+    """Function to check if gameboard position is owned by black piece"""
+    return GAMEBOARD[position] == 'black'
+
+def count_blacks():
+    """Function to count black pieces on the gameboard"""
+    return len(list(filter(is_black, GAMEBOARD)))
