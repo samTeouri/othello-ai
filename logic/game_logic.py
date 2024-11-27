@@ -99,6 +99,14 @@ def count_whites():
     """Function to count white pieces on the gameboard"""
     return len(list(filter(is_white, GAMEBOARD)))
 
+def is_empty(position):
+    """Function to check if gameboard position is empty"""
+    return GAMEBOARD[position] == 'empty'
+
+def count_empty():
+    """Function to count empty cells on the gameboard"""
+    return len(list(filter(is_empty, GAMEBOARD)))
+
 def winner():
     """Function to get the winner of the game"""
     if count_blacks() > count_whites():
