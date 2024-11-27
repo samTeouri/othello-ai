@@ -13,6 +13,8 @@ class OthelloGUI:
                                 height=480,
                                 bg="green") # Create a canvas for the board
         self.canvas.pack()
+        self.turn_label = tk.Label(root, text=f"Turn: {PLAYER_TO_MOVE.capitalize()}", font=("Arial", 14)) # Label to display the current player's turn
+        self.turn_label.pack()
         self.canvas.bind("<Button-1>", self.on_click)  # Bind left mouse click to the on_click method
         self.draw_board() # Draw the grid for the board
         self.update_board()  # Draw the initial game pieces
@@ -46,12 +48,18 @@ class OthelloGUI:
                 self.canvas.create_oval(
                     x - 20, y - 20, x + 20, y + 20, fill="white", tags="piece"
                 )
+    
+    def update_turn_display(self):
+        """Function to update the turn label to reflect the current player."""
+        self.turn_label.config(text=f"Turn: {PLAYER_TO_MOVE.capitalize()}")
 
     def on_click(self, event):
         """
         Handle a left mouse click on the board.
         Determine the cell clicked and make a move if it's a legal move.
         """
+        global PLAYER_TO_MOVE
+
         # Determine the column and row based on the click position
         col = COLUMNS[event.x // CELL_SIZE]
         row = (event.y // CELL_SIZE) + 1
@@ -61,3 +69,7 @@ class OthelloGUI:
         if is_legal_move(position):
             move(position)  # Update the game state
             self.update_board()  # Redraw the board to reflect the changes
+
+            # Switch to the next player
+            PLAYER_TO_MOVE = get_opponent(PLAYER_TO_MOVE)
+            self.update_turn_display()  # Update the turn label
