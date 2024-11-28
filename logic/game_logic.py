@@ -114,3 +114,9 @@ def winner():
     elif count_whites() > count_blacks():
         return "white"
     return "draw"
+
+def game_is_finished():
+    """Function to check if the game is finished"""
+    if len(list(filter(is_empty, GAMEBOARD))) != 0:
+        return False
+    return True
