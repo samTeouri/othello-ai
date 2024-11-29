@@ -66,7 +66,6 @@ def move(position):
         GAMEBOARD[position] = PLAYER_TO_MOVE
         flip_captured_pieces(position)
         PLAYER_TO_MOVE = get_opponent(PLAYER_TO_MOVE)  # Switch to the opponent
-        print(PLAYER_TO_MOVE)
     return None
 
 def computer_move():
@@ -80,6 +79,45 @@ def computer_move():
         # Choose the move that captures the most pieces
         best_move = max(legal_moves, key=lambda pos: len(get_captured_pieces(pos)))
         move(best_move)  # Make the move
-    
-    
+    else:
+        PLAYER_TO_MOVE = get_opponent(PLAYER_TO_MOVE)  # Switch to the opponent
+
     return None
+
+def is_black(position):
+    """Function to check if gameboard position is owned by black piece"""
+    return GAMEBOARD[position] == 'black'
+
+def count_blacks():
+    """Function to count black pieces on the gameboard"""
+    return len(list(filter(is_black, GAMEBOARD)))
+
+def is_white(position):
+    """Function to check if gameboard position is owned by white piece"""
+    return GAMEBOARD[position] == 'white'
+
+def count_whites():
+    """Function to count white pieces on the gameboard"""
+    return len(list(filter(is_white, GAMEBOARD)))
+
+def is_empty(position):
+    """Function to check if gameboard position is empty"""
+    return GAMEBOARD[position] == 'empty'
+
+def count_empty():
+    """Function to count empty cells on the gameboard"""
+    return len(list(filter(is_empty, GAMEBOARD)))
+
+def winner():
+    """Function to get the winner of the game"""
+    if count_blacks() > count_whites():
+        return "black"
+    elif count_whites() > count_blacks():
+        return "white"
+    return "draw"
+
+def game_is_finished():
+    """Function to check if the game is finished"""
+    if len(list(filter(is_empty, GAMEBOARD))) != 0:
+        return False
+    return True
