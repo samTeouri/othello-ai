@@ -1,5 +1,5 @@
 import tkinter as tk
-from logic.game_logic import GAMEBOARD, computer_move, get_opponent, is_legal_move, move, PLAYER_TO_MOVE, COLUMNS
+from logic.game_logic import GAMEBOARD, computer_move, find_legal_moves, game_is_finished, get_opponent, is_legal_move, move, PLAYER_TO_MOVE, COLUMNS, winner
 
 CELL_SIZE = 60 # Size of each cell in pixels
 
@@ -60,24 +60,37 @@ class OthelloGUI:
         """
         global PLAYER_TO_MOVE
 
-        # Determine the column and row based on the click position
-        col = COLUMNS[event.x // CELL_SIZE]
-        row = (event.y // CELL_SIZE) + 1
-        position = (col, row)
+        if find_legal_moves():
+            # Determine the column and row based on the click position
+            col = COLUMNS[event.x // CELL_SIZE]
+            row = (event.y // CELL_SIZE) + 1
+            position = (col, row)
 
-        # Check if the clicked position is a legal move
-        if is_legal_move(position):
-            move(position)  # Update the game state
-            self.update_board()  # Redraw the board to reflect the changes
+            # Check if the clicked position is a legal move
+            if is_legal_move(position):
+                move(position)  # Update the game state
+                self.update_board()  # Redraw the board to reflect the changes
 
+                # Switch to the next player
+                PLAYER_TO_MOVE = get_opponent(PLAYER_TO_MOVE)
+                self.update_turn_display()  # Update the turn label
+
+                # Let the computer play its turn if it's white's turn
+                self.root.after(1000, self.computer_turn)  # Add a delay for better user experience
+        else:
             # Switch to the next player
             PLAYER_TO_MOVE = get_opponent(PLAYER_TO_MOVE)
-            self.update_turn_display()  # Update the turn label
-
-            # Let the computer play its turn if it's white's turn
-            self.root.after(1000, self.computer_turn)  # Add a delay for better user experience
+        
+        if game_is_finished():
+            self.turn_label.config(text=f"Game finished - Winner : {winner().capitalize()}")
 
     def computer_turn(self):
         """Function to handle the computer's move."""
+
+        global PLAYER_TO_MOVE
+
         computer_move()  # Let the computer play
         self.update_board()  # Update the GUI
+        # Switch to the next player
+        PLAYER_TO_MOVE = get_opponent(PLAYER_TO_MOVE)
+        self.update_turn_display()  # Update the turn label
